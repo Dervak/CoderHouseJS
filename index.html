@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,15 +8,26 @@
     <title>Shop</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
-    <header><button id="toggler" onclick="darkModeToggler()">Modo Oscuro</button></header>
+    <header>
+        <ul class="header-nav">
+            <li><a class="nav-links" href="#">Home</a></li>
+        </ul><button id="toggler">Modo Oscuro</button>
+    </header>
     <div class="container">
-        <h2 id="title">Ingresa un numero para calcular su tabla de multiplicaciones</h2>
-        <input id="num" type="number">
-        <button onclick="multiplication()">Calcular</button>
-        <div id="results"></div>
+        <h2 id="title"></h2>
+        <p id="description">En el cuadro de abajo ingresa el producto (tiene que ser identico) para buscar o borrar un
+            elemento de la lista:</p>
+        <input id="product-name" type="text">
+        <div class="buttons">
+            <button id="search">Buscar</button>
+            <button id="delete">Borrar</button>
+        </div>
+        <div id="products"></div>
     </div>
 
     <script src="./js/main.js"></script>
 </body>
+
 </html>

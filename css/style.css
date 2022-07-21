@@ -1,7 +1,12 @@
+@font-face {
+    font-family: 'MyriadCondensedWeb';
+    src: url("../resources/fonts/MyriadCondensedWeb.ttf");
+}
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "MyriadCondensedWeb";
 }
 .light_bg{
     background-color: white;
@@ -11,7 +16,25 @@
 }
 header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+}
+header .header-nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+.nav-links{
+    margin: 2rem;
+    padding: 2rem;
+    background-color: aquamarine;
+    border-radius: 1rem;
+    color: #ff7073;
+    font-size: 1.5rem;
+    transition: all 0.5s ease;
+}
+.nav-links:hover{
+    background-color: #3886fa;
 }
 button{
     border: none;
@@ -21,6 +44,15 @@ button{
     background-color: aquamarine;
     padding: 2rem;
     margin: 2rem;
+    color: #ff7073;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+button:hover{
+    background-color: #3886fa;
+}
+a{
+    text-decoration: none;
 }
 .container{
     display: flex;
@@ -32,6 +64,10 @@ button{
     font-size: 3rem;
     padding: 2rem;
 }
+.container #description{
+    font-size: 2rem;
+    padding: 1rem;
+}
 .container input{
     padding: 1rem;
     font-size: 2rem;
@@ -40,15 +76,21 @@ button{
     outline: none;
     text-align: center;
 }
-.container #results{
+.container #products{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    width: 50%;
+    font-size: 2rem;
     border-radius: 2rem;
+    width: 95%;
 }
-.container #results .result-item{
-    margin: 0 2rem;
+
+div[class*='product']{
+    justify-content: flex-start;
+    align-items: center;
+    margin: 2rem;
     padding: 1rem;
     font-size: 2rem;
+    display: flex;
+    flex-direction: column;
 }
