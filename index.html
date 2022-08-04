@@ -7,15 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shop</title>
     <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/7bd1cb53e2.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <header>
         <ul class="header-nav">
             <li><a class="nav-links" href="#">Home</a></li>
-        </ul><button id="toggler">Modo Oscuro</button>
+        </ul>
+        <button id="toggler"><i id="indicator" class="indicator fa-solid"></i></button>
     </header>
-    <div class="container">
+    <div id="container" class="container">
         <h2 id="title"></h2>
         <p id="description">En el cuadro de abajo ingresa el producto (tiene que ser identico) para buscar o borrar un
             elemento de la lista:</p>
@@ -24,7 +26,6 @@
             <button id="search">Buscar</button>
             <button id="delete">Borrar</button>
         </div>
-        <div id="products"></div>
     </div>
 
     <script src="./js/main.js"></script>

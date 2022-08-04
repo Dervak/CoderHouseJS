@@ -1,96 +1,155 @@
 @font-face {
-    font-family: 'MyriadCondensedWeb';
-    src: url("../resources/fonts/MyriadCondensedWeb.ttf");
+  font-family: "MyriadCondensedWeb";
+  src: url("../resources/fonts/MyriadCondensedWeb.ttf");
 }
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "MyriadCondensedWeb";
-}
-.light_bg{
-    background-color: white;
-}
-.dark_bg{
-    background-color: #282828;
-}
-header {
-    display: flex;
-    justify-content: space-between;
-}
-header .header-nav{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style-type: none;
-}
-.nav-links{
-    margin: 2rem;
-    padding: 2rem;
-    background-color: aquamarine;
-    border-radius: 1rem;
-    color: #ff7073;
-    font-size: 1.5rem;
-    transition: all 0.5s ease;
-}
-.nav-links:hover{
-    background-color: #3886fa;
-}
-button{
-    border: none;
-    border-radius: 1rem;
-    outline: none;
-    font-size: 2rem;
-    background-color: aquamarine;
-    padding: 2rem;
-    margin: 2rem;
-    color: #ff7073;
-    cursor: pointer;
-    transition: all 0.5s ease;
-}
-button:hover{
-    background-color: #3886fa;
-}
-a{
-    text-decoration: none;
-}
-.container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-.container #title{
-    font-size: 3rem;
-    padding: 2rem;
-}
-.container #description{
-    font-size: 2rem;
-    padding: 1rem;
-}
-.container input{
-    padding: 1rem;
-    font-size: 2rem;
-    border: 1px solid #282828;
-    background-color: #F0FFFF;
-    outline: none;
-    text-align: center;
-}
-.container #products{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    font-size: 2rem;
-    border-radius: 2rem;
-    width: 95%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "MyriadCondensedWeb";
 }
 
-div[class*='product']{
-    justify-content: flex-start;
-    align-items: center;
-    margin: 2rem;
-    padding: 1rem;
-    font-size: 2rem;
-    display: flex;
-    flex-direction: column;
+body {
+  transition: all 0.5s ease;
+  background-color: #f0ffff;
 }
+body.dark {
+  background-color: #282828;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+header .header-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+}
+header #toggler {
+  padding: 0;
+  position: relative;
+  display: block;
+  border-radius: 6.25rem;
+  width: 5rem;
+  height: 2.5rem;
+}
+header #toggler .indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  transform: scale(0.9);
+  background: aquamarine;
+  filter: brightness(1.1);
+  transition: all 0.5s ease;
+}
+header #toggler .indicator.active {
+  left: 2.5rem;
+  filter: brightness(0.9);
+}
+
+button {
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+  font-size: 2rem;
+  background-color: aquamarine;
+  padding: 2rem;
+  margin: 2rem;
+  color: #ff7073;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+button:hover {
+  background-color: #3886fa;
+}
+
+a {
+  text-decoration: none;
+}
+
+.card {
+  padding: 1.25rem;
+  border-radius: 0.3125rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  min-height: 12.5rem;
+  min-width: 25%;
+  margin: 2rem;
+  margin-top: 5rem;
+  padding: 1rem;
+  font-size: 2rem;
+  transition: all 0.5s ease;
+}
+body.dark .card {
+  background-color: aquamarine;
+}
+.card img {
+  vertical-align: top;
+  border-radius: 0.4375rem;
+  width: calc(100% - 1rem);
+  max-height: 10rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-top: -10rem;
+}
+
+.nav-links {
+  margin: 2rem;
+  padding: 2rem;
+  background-color: aquamarine;
+  border-radius: 1rem;
+  color: #ff7073;
+  font-size: 1.5rem;
+  transition: all 0.5s ease;
+}
+.nav-links:hover {
+  background-color: #3886fa;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.container #title {
+  font-size: 3rem;
+  padding: 2rem;
+}
+body.dark .container #title {
+  color: #f0ffff;
+}
+.container #description {
+  font-size: 2rem;
+  padding: 1rem;
+}
+body.dark .container #description {
+  color: #f0ffff;
+}
+.container input {
+  padding: 1rem;
+  font-size: 2rem;
+  border: 1px solid #282828;
+  background-color: #f0ffff;
+  outline: none;
+  text-align: center;
+}
+.container #products {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 2rem;
+  border-radius: 2rem;
+  width: 95%;
+}/*# sourceMappingURL=style.css.map */
