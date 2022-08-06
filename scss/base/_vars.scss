@@ -2,6 +2,11 @@
     font-family: 'MyriadCondensedWeb';
     src: url("../resources/fonts/MyriadCondensedWeb.ttf");
 }
+:root{
+    --card-height: 20rem;
+    --card-pos: 0;
+    --card-margin: 5rem;
+}
 $font: "MyriadCondensedWeb";
 $black: #282828;
 $white: #f0ffff;

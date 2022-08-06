@@ -2,6 +2,12 @@
   font-family: "MyriadCondensedWeb";
   src: url("../resources/fonts/MyriadCondensedWeb.ttf");
 }
+:root {
+  --card-height: 20rem;
+  --card-pos: 0;
+  --card-margin: 5rem;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,10 +17,31 @@
 
 body {
   transition: all 0.5s ease;
-  background-color: #f0ffff;
+  background-color: #f0f0f0;
 }
 body.dark {
   background-color: #282828;
+}
+body #sc-btn {
+  margin: 0;
+  position: fixed;
+  bottom: 0.2rem;
+  right: 0.2rem;
+  transform: scale(0.7);
+}
+body .popup-bg {
+  background-color: rgba(40, 40, 40, 0.8);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  transition: all 0.5s ease;
+  pointer-events: all;
+  opacity: 0;
+}
+body .popup-bg.active {
+  opacity: 1;
 }
 
 header {
@@ -46,9 +73,12 @@ header #toggler .indicator {
   width: 2.5rem;
   border-radius: 50%;
   transform: scale(0.9);
-  background: aquamarine;
+  background: #3886fa;
   filter: brightness(1.1);
   transition: all 0.5s ease;
+}
+body.dark header #toggler .indicator {
+  background: aquamarine;
 }
 header #toggler .indicator.active {
   left: 2.5rem;
@@ -60,15 +90,21 @@ button {
   border-radius: 1rem;
   outline: none;
   font-size: 2rem;
-  background-color: aquamarine;
+  background-color: #3886fa;
   padding: 2rem;
   margin: 2rem;
   color: #ff7073;
   cursor: pointer;
   transition: all 0.5s ease;
 }
-button:hover {
+body.dark button {
+  background-color: aquamarine;
+}
+body.dark button:hover {
   background-color: #3886fa;
+}
+button:hover {
+  background-color: aquamarine;
 }
 
 a {
@@ -76,17 +112,18 @@ a {
 }
 
 .card {
+  position: relative;
+  background-color: #3886fa;
   padding: 1.25rem;
   border-radius: 0.3125rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  position: relative;
-  min-height: 12.5rem;
-  min-width: 25%;
+  justify-content: flex-start;
+  min-height: var(--card-height);
+  width: 20%;
   margin: 2rem;
-  margin-top: 5rem;
+  margin-top: 10rem;
   padding: 1rem;
   font-size: 2rem;
   transition: all 0.5s ease;
@@ -95,26 +132,49 @@ body.dark .card {
   background-color: aquamarine;
 }
 .card img {
-  vertical-align: top;
+  position: absolute;
+  margin-top: 0;
+  top: var(--card-pos);
   border-radius: 0.4375rem;
   width: calc(100% - 1rem);
-  max-height: 10rem;
+  max-height: 15rem;
   -o-object-fit: cover;
      object-fit: cover;
-  margin-top: -10rem;
+  transition: all 0.2s ease;
+}
+.card .store {
+  margin-top: var(--card-margin);
+}
+.card #card-btns {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.card #card-btns .card-buy {
+  background-color: #282828;
+}
+.card #card-btns .card-buy:hover {
+  opacity: 0.9;
 }
 
 .nav-links {
   margin: 2rem;
   padding: 2rem;
-  background-color: aquamarine;
+  background-color: #3886fa;
   border-radius: 1rem;
   color: #ff7073;
   font-size: 1.5rem;
   transition: all 0.5s ease;
 }
-.nav-links:hover {
+body.dark .nav-links {
+  background-color: aquamarine;
+}
+body.dark .nav-links:hover {
   background-color: #3886fa;
+}
+.nav-links:hover {
+  background-color: aquamarine;
 }
 
 .container {
