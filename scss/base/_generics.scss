@@ -117,7 +117,7 @@ a {
     align-items: center;
     justify-content: flex-start;
     min-height: var(--card-height);
-    width: 20%;
+    min-width: var(--card-width);
     margin: 2rem;
     margin-top: 10rem;
     padding: 1rem;

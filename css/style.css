@@ -6,6 +6,7 @@
   --card-height: 20rem;
   --card-pos: 0;
   --card-margin: 5rem;
+  --card-width: 25%;
 }
 
 * {
@@ -121,7 +122,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   min-height: var(--card-height);
-  width: 20%;
+  min-width: var(--card-width);
   margin: 2rem;
   margin-top: 10rem;
   padding: 1rem;
