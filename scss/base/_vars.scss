@@ -3,10 +3,10 @@
     src: url("../resources/fonts/MyriadCondensedWeb.ttf");
 }
 :root{
-    --card-height: 20rem;
+    --card-height: 0;
     --card-pos: 0;
-    --card-margin: 5rem;
-    --card-width: 25%;
+    --card-margin: 0;
+    --card-width: 0;
 }
 $font: "MyriadCondensedWeb";
 $black: #282828;
