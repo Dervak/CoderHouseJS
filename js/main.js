@@ -1,5 +1,3 @@
-let name = "";
-let darkmode = localStorage.getItem("darkmode") || "true";
 const products = [
     { id: "french-fries", name: "Papas Fritas", price: 200, store: "McBurger" },
     {
@@ -13,14 +11,27 @@ const products = [
     { id: "sushi", name: "Sushi", price: 2200, store: "Izakaya" },
     { id: "crepes", name: "Crêpes", price: 1500, store: "Crêperie" }
 ];
+let name = "";
+let darkmode = localStorage.getItem("darkmode") || "true";
 let cart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
 let productsaux = products;
-let productName = "";
 
-function welcomeTitle(name) {
+function loadPage() {
     document.getElementById(
         "title"
-    ).innerText = `Bienvenido ${name} a este hermoso "carrito de compras" version alpha-0.01`;
+    ).innerText = `Bienvenido a este hermoso "carrito de compras" version 1.0`;
+    setTimeout(() => {
+        darkModeToggler();
+        createProduct();
+        if (cart.length > 0) {
+            cart.forEach((item) => {
+                document.getElementById("sc-btn").setAttribute("cart-items-count", parseInt(document.getElementById("sc-btn").getAttribute("cart-items-count")) + item.qty)
+            })
+        } else {
+            document.getElementById("sc-btn").classList.toggle("hide-count")
+        }
+        addProduct(productsaux)
+    })
 }
 function darkModeToggler() {
     if (darkmode === "false") {
@@ -91,14 +102,27 @@ function buyCart(event) {
     event.stopPropagation()
     cartPopUpHandler()
     cart = []
+    document.getElementById("sc-btn").setAttribute("cart-items-count", 0)
+    document.getElementById("sc-btn").classList.toggle("hide-count")
 }
 function deleteCart(event) {
+    let qty = 0;
+    let price = 0;
     for (i = 0; i < event.currentTarget.parentElement.parentElement.childNodes.length; i++) {
-        event.currentTarget.parentElement.parentElement.childNodes[i].classList.contains("name") && (cart = cart.filter((item) => item.name !== event.currentTarget.parentElement.parentElement.childNodes[i].innerText))
+        if (event.currentTarget.parentElement.parentElement.childNodes[i].classList.contains("name")) {
+            cart = cart.filter((item) => item.name !== event.currentTarget.parentElement.parentElement.childNodes[i].innerText)
+        } else if (event.currentTarget.parentElement.parentElement.childNodes[i].classList.contains("quantity")) {
+            qty = parseInt(event.currentTarget.parentElement.parentElement.childNodes[i].innerText)
+        } else if (event.currentTarget.parentElement.parentElement.childNodes[i].classList.contains("price")){
+            price = parseInt(event.currentTarget.parentElement.parentElement.childNodes[i].innerText.replace("$", ""))
+        }
     }
+    event.stopPropagation()
     localStorage.setItem("shopping-cart", JSON.stringify(cart))
     event.currentTarget.parentElement.parentElement.remove()
-    event.stopPropagation()
+    document.getElementById("sc-btn").setAttribute("cart-items-count", parseInt(document.getElementById("sc-btn").getAttribute("cart-items-count")) - qty)
+    document.getElementById("sc-btn").getAttribute("cart-items-count") == 0 && document.getElementById("sc-btn").classList.toggle("hide-count")
+    document.getElementById("cart-total").innerText = "Total: $" + (parseInt(document.getElementById("cart-total").innerText.replace("Total: $", "")) - (price * qty))
 }
 function addToCart(prod) {
     let exist = false;
@@ -125,12 +149,12 @@ function createCart() {
     cart.forEach((prod) => {
         let item = document.createElement("tr");
         item.classList.add("cart-item")
-        item.innerHTML = `<td class="name">${prod.name}</td><td>$ ${prod.price}</td><td>${prod.qty}</td><td><button class="cart-del"><i class="fa-solid fa-trash-can"></i></button></td>`;
+        item.innerHTML = `<td class="name">${prod.name}</td><td class="price">$ ${prod.price}</td><td class="quantity">${prod.qty}</td><td><button class="cart-del"><i class="fa-solid fa-trash-can"></i></button></td>`;
         elem.appendChild(item);
         total += (prod.price * prod.qty)
     })
-    totalRow.classList.add("cart-total")
-    totalRow.innerHTML = `<td>Total: $${total}</td><td><button id="cart-buy"><i class="fa-solid fa-basket-shopping"></i></button></td>`
+    totalRow.classList.add("cart-total-buy")
+    totalRow.innerHTML = `<td id="cart-total">Total: $${total}</td><td><button id="cart-buy"><i class="fa-solid fa-basket-shopping"></i></button></td>`
     elem.appendChild(totalRow)
     return elem;
 }
@@ -168,52 +192,33 @@ function addProduct(products) {
         ? (document.getElementById("products").innerHTML = "")
         : createProduct();
     let i = 0;
-    for (let product of products) {
-        let newProd = document.createElement("div");
-        newProd.setAttribute("id", product.id);
-        newProd.classList.add("card");
-        newProd.innerHTML = `<img src="./resources/images/${product.id}.png" alt="${product.name}"><div class="store" id="${product.store}">${product.store}</div><div id="${product.name}" class="name">${product.name}</div><div class="price">$${product.price}</div><div id="card-btns"><button class="card-buy button">Comprar</button></div>`;
-        document.getElementById("products").appendChild(newProd);
-        document.getElementsByClassName("card-buy")[i].onclick = (event) =>
-            buyProduct(event);
-        i++;
+    if (products.length > 0){
+        products.map(product => {
+            let newProd = document.createElement("div");
+            newProd.setAttribute("id", product.id);
+            newProd.classList.add("card");
+            newProd.innerHTML = `<img src="./resources/images/${product.id}.png" alt="${product.name}"><div class="store" id="${product.store}">${product.store}</div><div id="${product.name}" class="name">${product.name}</div><div class="price">$${product.price}</div><div id="card-btns"><button class="card-buy button">Comprar</button></div>`;
+            document.getElementById("products").appendChild(newProd);
+            document.getElementsByClassName("card-buy")[i].onclick = (event) => buyProduct(event);
+            i++
+        })
+    }else{
+        (document.getElementById("products").innerHTML = `No hay resultados`);
     }
+
     setTimeout(() => cardAdapter(), 50)
 }
-function deleteProduct(name, products) {
-    for (let product of products) {
-        if (product.name === name) {
-            products.splice(
-                products
-                    .map((p) => {
-                        return p.name;
-                    })
-                    .indexOf(product.name),
-                1
-            );
-            addProduct(products);
-        }
+function searchProduct(event, products) {
+    let arg = event.target.value.toLowerCase()
+    if (arg !== ""){
+        addProduct(products.filter((product) =>{return product.name.toLowerCase().includes(arg) || product.store.toLowerCase().includes(arg)}))
+        document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+    }else{
+        addProduct(products)
     }
-    productName = "";
-    document.getElementById("product-name").value = "";
-    document.getElementById("search").innerHTML ===
-        '<i class="fa-solid fa-rotate-left"></i>' &&
-        (document.getElementById("search").innerHTML =
-            '<i class="fa-solid fa-magnifying-glass"></i>');
-    return products;
-}
-function searchProduct(name, products) {
-    products.filter((product) => product.name === name).length > 0
-        ? addProduct(products.filter((product) => product.name === name))
-        : (document.getElementById(
-            "products"
-        ).innerHTML = `No hay resultados con ${name}`);
-    document.getElementById("search").innerHTML =
-        '<i class="fa-solid fa-rotate-left"></i>';
 }
 function restoreSearch(products) {
     addProduct(products);
-    productName = "";
     document.getElementById("product-name").value = "";
     document.getElementById("search").innerHTML =
         '<i class="fa-solid fa-magnifying-glass"></i>';
@@ -241,6 +246,8 @@ function confirmBuy(event) {
             }
         }
     }
+    document.getElementById("sc-btn").setAttribute("cart-items-count", parseInt(document.getElementById("sc-btn").getAttribute("cart-items-count")) + qty)
+    document.getElementById("sc-btn").classList.contains("hide-count") && document.getElementById("sc-btn").classList.toggle("hide-count")
     addToCart({ name, price, qty })
     Toastify({
         text: "El producto ha sido agregado al carrito.",
@@ -249,8 +256,10 @@ function confirmBuy(event) {
         position: "right",
         stopOnFocus: true,
         style: {
+            fontSize: "1.1rem",
             background: "aquamarine",
             color: "#282828",
+            borderRadius: ".5rem",
         },
     }).showToast()
     event.target.onclick = (event) => buyProduct(event)
@@ -268,18 +277,13 @@ function buyProduct(event) {
 }
 
 //CARGA
-window.onload = () => darkModeToggler();
-createProduct();
-addProduct(productsaux);
-
-welcomeTitle(name);
+window.onload = () => loadPage();
 
 //EVENTOS
-document.getElementById("product-name").oninput = () =>
-    (productName = document.getElementById("product-name").value);
+document.getElementById("product-name").oninput = (event) => searchProduct(event, products)
 document.getElementById("toggler").onclick = () => darkModeToggler();
 document.getElementById("sc-btn").onclick = () => {
-    cart.length === 0 ?
+    if (cart.length === 0) {
         Toastify({
             text: "No hay productos todavia, comprá algo!",
             duration: 2000,
@@ -287,17 +291,17 @@ document.getElementById("sc-btn").onclick = () => {
             position: "right",
             stopOnFocus: true,
             style: {
+                fontSize: "1.1rem",
                 background: "aquamarine",
                 color: "#282828",
+                borderRadius: ".5rem",
             },
-        }).showToast() : cartPopUpHandler();
-    document.getElementById("popup-bg").onclick = () => cartPopUpHandler()
+        }).showToast()
+    } else {
+        cartPopUpHandler();
+        document.getElementById("popup-bg").onclick = () => cartPopUpHandler();
+    }
+
 }
-document.getElementById("search").onclick = () =>
-    document.getElementById("search").innerHTML ===
-        '<i class="fa-solid fa-magnifying-glass"></i>'
-        ? searchProduct(productName, productsaux)
-        : restoreSearch(productsaux);
-document.getElementById("delete").onclick = () =>
-    (productsaux = deleteProduct(productName, productsaux));
+document.getElementById("search").onclick = () => restoreSearch(productsaux);
 window.onresize = () => cardAdapter();

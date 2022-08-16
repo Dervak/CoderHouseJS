@@ -37,6 +37,23 @@ body #sc-btn {
   right: 0.2rem;
   transform: scale(0.7);
 }
+body #sc-btn.hide-count::before {
+  opacity: 0;
+}
+body #sc-btn::before {
+  background: #ff7073;
+  color: #f0ffff;
+  position: absolute;
+  content: attr(cart-items-count);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -0.5rem;
+  right: -0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
 body .popup-bg {
   background-color: rgba(40, 40, 40, 0.8);
   width: 100vw;
@@ -49,7 +66,7 @@ body .popup-bg {
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: painted;
+  pointer-events: all;
 }
 body .popup-bg .cart-list {
   z-index: 15;
@@ -80,14 +97,16 @@ body .popup-bg .cart-list .cart-item .cart-del {
   padding: 0;
   background-color: transparent;
 }
-body .popup-bg .cart-list .cart-total {
+body .popup-bg .cart-list .cart-total-buy {
   display: flex;
   padding: 2rem;
   justify-content: space-evenly;
   align-items: center;
 }
-body .popup-bg .cart-list .cart-total #cart-buy {
+body .popup-bg .cart-list .cart-total-buy #cart-buy {
   margin: 0 2rem;
+  padding: 0;
+  background-color: transparent;
 }
 body .popup-bg.active {
   opacity: 1;
@@ -101,6 +120,7 @@ header {
   top: -0.3125rem;
   background-color: #f0f0f0;
   z-index: 5;
+  transition: all 0.5s ease;
 }
 header .header-nav {
   display: flex;
