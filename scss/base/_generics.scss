@@ -26,10 +26,12 @@ body {
         bottom: 0.2rem;
         right: 0.2rem;
         transform: scale(0.7);
-        &.hide-count::before{
+
+        &.hide-count::before {
             opacity: 0;
         }
-        &::before{
+
+        &::before {
             background: $red;
             color: $white;
             position: absolute;
@@ -58,7 +60,9 @@ body {
         justify-content: center;
         align-items: center;
         pointer-events: all;
-        .cart-list{
+
+        .cart-list {
+            pointer-events: all;
             z-index: 15;
             overflow: auto;
             position: relative;
@@ -69,33 +73,49 @@ body {
             border-radius: 5rem;
             max-height: 100vh;
             transition: all 0.5s ease;
+
             &::-webkit-scrollbar {
                 box-sizing: content-box;
                 width: 0;
 
             }
-            th{
+
+            th {
                 padding: 1rem;
                 margin: 1rem;
             }
-            .cart-item{
+
+            .cart-item {
                 padding: 1rem 2rem;
                 font-size: 3rem;
                 text-align: center;
-                .cart-del{
+                transition: all .5s ease;
+
+                &.hidden {
+                    opacity: 0;
+                }
+
+                .cart-del {
                     padding: 0;
                     background-color: transparent;
                 }
             }
-            .cart-total-buy{
+
+            .cart-total-buy {
                 display: flex;
                 padding: 2rem;
                 justify-content: space-evenly;
                 align-items: center;
-                #cart-buy{
+
+                #cart-buy {
                     margin: 0 2rem;
                     padding: 0;
                     background-color: transparent;
+                    transition: all .2s ease;
+                    &:disabled {
+                        cursor: not-allowed;
+                        filter: saturate(100%) brightness(0) invert(86%) sepia(0%) saturate(300%) hue-rotate(165deg) brightness(111%) contrast(84%);
+                    }
                 }
             }
         }
@@ -114,13 +134,15 @@ header {
     background-color: #f0f0f0;
     z-index: 5;
     transition: all .5s ease;
+
     .header-nav {
         display: flex;
         justify-content: center;
         align-items: center;
         list-style-type: none;
     }
-    body.dark &{
+
+    body.dark & {
         background-color: $black;
     }
 
@@ -241,17 +263,20 @@ a {
             &:hover {
                 opacity: 0.9;
             }
-            &.active{
-                margin: 0 ;
+
+            &.active {
+                margin: 0;
             }
         }
-        .card-qty{
+
+        .card-qty {
             display: flex;
             justify-content: center;
             align-items: center;
             margin-top: 1rem;
             margin-bottom: 0.3125rem;
             transition: all .5s ease;
+
             .plus-minus {
                 display: flex;
                 justify-content: center;
@@ -261,7 +286,7 @@ a {
                 padding: 0.3125rem;
                 margin: 0 0.0625rem;
             }
-    
+
             .card-in {
                 border-radius: 0.5rem;
                 font-size: 1.25rem;
@@ -270,7 +295,8 @@ a {
                 width: 2rem;
                 height: 2rem;
             }
-            &.hidden{
+
+            &.hidden {
                 opacity: 0;
             }
         }

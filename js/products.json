@@ -1,0 +1,38 @@
+[
+    {
+        "id": "french-fries",
+        "name": "Papas Fritas",
+        "price": 200,
+        "store": "McBurger"
+    },
+    {
+        "id": "asado",
+        "name": "Asado",
+        "price": 1200,
+        "store": "Parrilla 'El Rey Wilson' "
+    },
+    {
+        "id": "icecream",
+        "name": "Helado",
+        "price": 300,
+        "store": "Luccianos"
+    },
+    {
+        "id": "water",
+        "name": "Agua en un recital",
+        "price": 500,
+        "store": "Paisano"
+    },
+    {
+        "id": "sushi",
+        "name": "Sushi",
+        "price": 2200,
+        "store": "Izakaya"
+    },
+    {
+        "id": "crepes",
+        "name": "Crêpes",
+        "price": 1500,
+        "store": "Crêperie"
+    }
+]

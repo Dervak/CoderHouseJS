@@ -69,6 +69,7 @@ body .popup-bg {
   pointer-events: all;
 }
 body .popup-bg .cart-list {
+  pointer-events: all;
   z-index: 15;
   overflow: auto;
   position: relative;
@@ -92,6 +93,10 @@ body .popup-bg .cart-list .cart-item {
   padding: 1rem 2rem;
   font-size: 3rem;
   text-align: center;
+  transition: all 0.5s ease;
+}
+body .popup-bg .cart-list .cart-item.hidden {
+  opacity: 0;
 }
 body .popup-bg .cart-list .cart-item .cart-del {
   padding: 0;
@@ -107,6 +112,11 @@ body .popup-bg .cart-list .cart-total-buy #cart-buy {
   margin: 0 2rem;
   padding: 0;
   background-color: transparent;
+  transition: all 0.2s ease;
+}
+body .popup-bg .cart-list .cart-total-buy #cart-buy:disabled {
+  cursor: not-allowed;
+  filter: saturate(100%) brightness(0) invert(86%) sepia(0%) saturate(300%) hue-rotate(165deg) brightness(111%) contrast(84%);
 }
 body .popup-bg.active {
   opacity: 1;
