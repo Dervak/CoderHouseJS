@@ -73,11 +73,11 @@ body .popup-bg .cart-list {
   z-index: 15;
   overflow: auto;
   position: relative;
-  padding: 5rem;
-  font-size: 3rem;
+  padding: 3rem;
+  font-size: clamp(1rem, 5vw, 3rem);
   background-color: aquamarine;
   color: #ff7073;
-  border-radius: 5rem;
+  border-radius: 2rem;
   max-height: 100vh;
   transition: all 0.5s ease;
 }
@@ -91,7 +91,7 @@ body .popup-bg .cart-list th {
 }
 body .popup-bg .cart-list .cart-item {
   padding: 1rem 2rem;
-  font-size: 3rem;
+  font-size: clamp(1.5rem, 5vw, 3rem);
   text-align: center;
   transition: all 0.5s ease;
 }
@@ -99,6 +99,7 @@ body .popup-bg .cart-list .cart-item.hidden {
   opacity: 0;
 }
 body .popup-bg .cart-list .cart-item .cart-del {
+  font-size: clamp(1.5rem, 5vw, 3rem);
   padding: 0;
   background-color: transparent;
 }
@@ -109,6 +110,7 @@ body .popup-bg .cart-list .cart-total-buy {
   align-items: center;
 }
 body .popup-bg .cart-list .cart-total-buy #cart-buy {
+  font-size: clamp(1.5rem, 5vw, 3rem);
   margin: 0 2rem;
   padding: 0;
   background-color: transparent;
@@ -128,9 +130,11 @@ header {
   position: -webkit-sticky;
   position: sticky;
   top: -0.3125rem;
-  background-color: #f0f0f0;
+  background-color: rgba(240, 240, 240, 0.2);
   z-index: 5;
   transition: all 0.5s ease;
+  -webkit-backdrop-filter: blur(0.1875rem);
+          backdrop-filter: blur(0.1875rem);
 }
 header .header-nav {
   display: flex;
@@ -139,7 +143,7 @@ header .header-nav {
   list-style-type: none;
 }
 body.dark header {
-  background-color: #282828;
+  background-color: rgba(40, 40, 40, 0.2);
 }
 header #toggler {
   padding: 0;
@@ -231,6 +235,9 @@ body.dark .card {
 }
 .card .store {
   margin-top: var(--card-margin);
+}
+.card .name, .card .price {
+  font-size: 1.5rem;
 }
 .card #card-btns {
   display: flex;
