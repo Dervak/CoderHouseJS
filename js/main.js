@@ -1,5 +1,5 @@
 let products = []
-let darkmode = localStorage.getItem("darkmode") || "true";
+let darkmode = localStorage.getItem("darkmode") || "false";
 let cart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
 const loadPage = async () => {
     const res = await fetch("./js/products.json");
@@ -14,9 +14,11 @@ function darkModeToggler() {
         document.getElementById("indicator").classList.add("fa-moon");
         document.getElementById("indicator").classList.add("active");
         document.body.classList.add("dark");
+        document.getElementById("toggler").setAttribute("title", "Modo claro")
     } else if (darkmode === "true") {
         darkmode = false;
         document.getElementById("indicator").classList.add("fa-sun");
+        document.getElementById("toggler").setAttribute("title", "Modo oscuro")
     }
     if (!darkmode) {
         document.getElementById("indicator").classList.toggle("fa-sun");
@@ -25,6 +27,7 @@ function darkModeToggler() {
         document.body.classList.toggle("dark");
         darkmode = true;
         localStorage.setItem("darkmode", darkmode);
+        document.getElementById("toggler").setAttribute("title", "Modo claro")
     } else {
         document.getElementById("indicator").classList.toggle("fa-moon");
         document.getElementById("indicator").classList.toggle("fa-sun");
@@ -32,6 +35,7 @@ function darkModeToggler() {
         document.body.classList.toggle("dark");
         darkmode = false;
         localStorage.setItem("darkmode", darkmode);
+        document.getElementById("toggler").setAttribute("title", "Modo oscuro")
     }
 }
 function cardAdapter() {
@@ -113,7 +117,7 @@ function deleteCart(event) {
             setTimeout(() => pe.remove(), 500);
             document.getElementById("sc-btn").setAttribute("cart-items-count", parseInt(document.getElementById("sc-btn").getAttribute("cart-items-count")) - qty);
             document.getElementById("cart-total").innerText = "Total: $" + (parseInt(document.getElementById("cart-total").innerText.replace("Total: $", "")) - (price * qty));
-            if (document.getElementById("sc-btn").getAttribute("cart-items-count") == 0){
+            if (document.getElementById("sc-btn").getAttribute("cart-items-count") == 0) {
                 document.getElementById("sc-btn").classList.toggle("hide-count");
                 document.getElementById("cart-buy").disabled = true;
             }
@@ -139,8 +143,10 @@ function addToCart(prod) {
 }
 function createCart() {
     let total = 0;
+    let container = document.createElement("div")
     let elem = document.createElement("tbody");
     let totalRow = document.createElement("tr");
+    container.classList.add("cart-container")
     elem.classList.add("cart-list")
     elem.innerHTML = `<tr><th>Producto</th><th>Precio</th><th>Cantidad</th></tr>`
     cart.forEach((prod) => {
@@ -153,7 +159,8 @@ function createCart() {
     totalRow.classList.add("cart-total-buy")
     totalRow.innerHTML = `<td id="cart-total">Total: $${total}</td><td><button id="cart-buy"><i class="fa-solid fa-basket-shopping"></i></button></td>`
     elem.appendChild(totalRow)
-    return elem;
+    container.appendChild(elem)
+    return container;
 }
 function cartPopUpHandler(event) {
     if (event.id || event.currentTarget.id === "sc-btn" || event.target.id === "popup-bg" || event.currentTarget.id === "cart-buy") {
@@ -205,20 +212,57 @@ function addProduct(products) {
         (document.getElementById("products").innerHTML = `No hay resultados`);
     }
 
-    setTimeout(() => cardAdapter(), 50)
+    setTimeout(() => cardAdapter(), 100)
 }
 function searchProduct(event, products) {
     let arg = event.target.value.toLowerCase()
     if (arg !== "") {
-        addProduct(products.filter((product) => { return product.name.toLowerCase().includes(arg) || product.store.toLowerCase().includes(arg) }))
+        products = products.filter((product) => { return product.name.toLowerCase().includes(arg) || product.store.toLowerCase().includes(arg) })
+        addProduct(products)
         document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
     } else {
         addProduct(products)
         document.getElementById("search").innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>'
     }
 }
+function sortProduct(products, criteria) {
+
+        const sortingMethods = {
+            "sort-price": () => {
+                addProduct(products.sort((pa, pb) => {
+                    return pa.price - pb.price
+                }))
+                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-9-1"></i>`
+                document.getElementById(criteria).setAttribute("id", "sort-price-inv")
+            },
+            "sort-price-inv": () => {
+                addProduct(products.sort((pa, pb) => {
+                    return pb.price - pa.price
+                }))
+                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-1-9"></i>`
+                document.getElementById(criteria).setAttribute("id", "sort-price")
+            },
+            "sort-name": () => {
+                addProduct(products.sort((pa, pb) => {
+                    return pa.name.localeCompare(pb.name)
+                }))
+                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-z-a"></i>`
+                document.getElementById(criteria).setAttribute("id", "sort-name-inv")
+            },
+            "sort-name-inv": () => {
+                addProduct(products.sort((pa, pb) => {
+                    return pb.name.localeCompare(pa.name)
+                }))
+                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-a-z"></i>`
+                document.getElementById(criteria).setAttribute("id", "sort-name")
+            }
+        }
+        const sortingMethod = sortingMethods[criteria]
+        sortingMethod()
+}
 function restoreSearch(products) {
     addProduct(products);
+    productsAux = products;
     document.getElementById("product-name").value = "";
     document.getElementById("search").innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
 }
@@ -280,19 +324,22 @@ function buyProduct(event) {
 }
 
 //CARGA
-window.onload = () => {loadPage().then(() => {
+window.onload = () => {
+    loadPage()
+        .then(() => {
 
-        darkModeToggler();
-        createProduct();
-        if (cart.length > 0) {
-            cart.forEach((item) => {
-                document.getElementById("sc-btn").setAttribute("cart-items-count", parseInt(document.getElementById("sc-btn").getAttribute("cart-items-count")) + item.qty)
-            })
-        } else {
-            document.getElementById("sc-btn").classList.toggle("hide-count")
-        }
-        addProduct(products)
-})};
+            darkModeToggler();
+            createProduct();
+            if (cart.length > 0) {
+                cart.forEach((item) => {
+                    document.getElementById("sc-btn").setAttribute("cart-items-count", parseInt(document.getElementById("sc-btn").getAttribute("cart-items-count")) + item.qty)
+                })
+            } else {
+                document.getElementById("sc-btn").classList.toggle("hide-count")
+            }
+            addProduct(products)
+        })
+};
 
 //EVENTOS
 document.getElementById("product-name").oninput = (event) => searchProduct(event, products)
@@ -318,5 +365,7 @@ document.getElementById("sc-btn").onclick = (event) => {
     }
 
 }
-document.getElementById("search").onclick = () => restoreSearch(products);
+document.getElementById("search").onclick = () => document.getElementById("search").innerHTML === `<i class="fa-solid fa-rotate-left"></i>` && restoreSearch(products);
+document.getElementById("sort-price").onclick = (event) => sortProduct(products, event.currentTarget.id)
+document.getElementById("sort-name").onclick = (event) => sortProduct(products, event.currentTarget.id)
 window.onresize = () => cardAdapter();

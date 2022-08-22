@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script src="https://kit.fontawesome.com/7bd1cb53e2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./css/style.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+    <script src="./js/main.js" defer></script>
 </head>
 
 <body>
@@ -16,20 +19,19 @@
         <ul class="header-nav">
             <li><a class="nav-links" href="#"><i class="fa-solid fa-house"></i></a></li>
         </ul>
-        <button id="toggler"><i id="indicator" class="indicator fa-solid"></i></button>
+        <button id="toggler" title="Modo oscuro"><i id="indicator" class="indicator fa-solid"></i></button>
     </header>
     <div id="container" class="container">
         <h2 id="title"></h2>
         <p class="description">En el cuadro de abajo ingresa el producto para buscarlo:</p>
         <input id="product-name" type="text">
         <div class="buttons">
-            <button id="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button id="sort-price" title="Ordenar de mayor a menor"><i class="fa-solid fa-arrow-down-1-9"></i></button>
+            <button id="sort-name" title="Ordenar alfabéticamente"><i class="fa-solid fa-arrow-down-a-z"></i></button>
+            <button id="search" title="Buscar"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
     </div>
     <button id="sc-btn" cart-items-count="0"><i class="fa-solid fa-cart-shopping"></i></button>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="./js/main.js"></script>
 </body>
 
 </html>
