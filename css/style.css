@@ -35,7 +35,7 @@ body #sc-btn {
   margin: 0;
   position: fixed;
   bottom: 0.2rem;
-  right: 0.2rem;
+  right: 0.5rem;
   transform: scale(0.7);
 }
 body #sc-btn.hide-count::before {
@@ -76,6 +76,17 @@ body .popup-bg .cart-container {
   border-radius: 2rem;
   max-height: 96vh;
   max-width: 100%;
+  position: absolute;
+}
+body .popup-bg .cart-container #close-cart {
+  position: relative;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  height: 0;
+  z-index: 15;
 }
 body .popup-bg .cart-container .cart-list {
   z-index: 15;
@@ -221,6 +232,7 @@ a {
 .card {
   position: relative;
   background-color: #3886fa;
+  color: #f0ffff;
   padding: 1.25rem;
   border-radius: 0.3125rem;
   display: flex;
@@ -358,6 +370,7 @@ body.dark .container .description {
   font-size: 2rem;
   border-radius: 2rem;
   width: 95%;
+  color: black;
 }
 body.dark .container #products {
   color: #f0ffff;

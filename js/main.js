@@ -146,6 +146,7 @@ function addToCart(prod) {
 function createCart() {
     let total = 0;
     let container = document.createElement("div")
+    let button = document.createElement("button")
     let elem = document.createElement("tbody");
     let totalRow = document.createElement("tr");
     container.classList.add("cart-container")
@@ -160,12 +161,15 @@ function createCart() {
     })
     totalRow.classList.add("cart-total-buy")
     totalRow.innerHTML = `<td id="cart-total">Total: $${total}</td><td><button id="cart-buy"><i class="fa-solid fa-basket-shopping"></i></button></td>`
+    button.setAttribute("id", "close-cart")
+    button.innerHTML = `<i class="fa-solid fa-xmark"></i>`
     elem.appendChild(totalRow)
     container.appendChild(elem)
+    container.appendChild(button)
     return container;
 }
 function cartPopUpHandler(event) {
-    if (event.id || event.currentTarget.id === "sc-btn" || event.target.id === "popup-bg" || event.currentTarget.id === "cart-buy") {
+    if (event.id || event.currentTarget.id === "sc-btn" || event.target.id === "popup-bg" || event.currentTarget.id === "cart-buy" || event.currentTarget.id === "close-cart") {
         if (document.getElementById("popup-bg")) {
             document.getElementById("popup-bg").classList.remove("active");
             setTimeout(
@@ -183,6 +187,7 @@ function cartPopUpHandler(event) {
             );
             newEle.appendChild(createCart())
             document.getElementById("cart-buy").onclick = (event) => buyCart(event)
+            document.getElementById("close-cart").onclick = event => cartPopUpHandler(event)
             for (i = 0; i < document.getElementsByClassName("cart-del").length; i++) {
                 document.getElementsByClassName("cart-del")[i].onclick = (event) => deleteCart(event)
             }
@@ -353,9 +358,9 @@ window.onload = () => {
 };
 
 //EVENTOS
-document.getElementById("product-name").oninput = (event) => searchProduct(event, products)
+document.getElementById("product-name").oninput = event => searchProduct(event, products)
 document.getElementById("toggler").onclick = () => darkModeToggler();
-document.getElementById("sc-btn").onclick = (event) => {
+document.getElementById("sc-btn").onclick = event => {
     if (cart.length === 0) {
         Toastify({
             text: "No hay productos todavia, comprá algo!",
@@ -372,11 +377,11 @@ document.getElementById("sc-btn").onclick = (event) => {
         }).showToast()
     } else {
         cartPopUpHandler(event);
-        document.getElementById("popup-bg").onclick = (event) => cartPopUpHandler(event);
+        document.getElementById("popup-bg").onclick = event => cartPopUpHandler(event);
     }
 
 }
 document.getElementById("search").onclick = () => document.getElementById("search").innerHTML === `<i class="fa-solid fa-rotate-left"></i>` && restoreSearch();
-document.getElementById("sort-price").onclick = (event) => sortProduct(searchRes, event.currentTarget.id)
-document.getElementById("sort-name").onclick = (event) => sortProduct(searchRes, event.currentTarget.id)
+document.getElementById("sort-price").onclick = event => sortProduct(searchRes, event.currentTarget.id)
+document.getElementById("sort-name").onclick = event => sortProduct(searchRes, event.currentTarget.id)
 window.onresize = () => cardAdapter();

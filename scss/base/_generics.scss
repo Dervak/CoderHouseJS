@@ -25,7 +25,7 @@ body {
         margin: 0;
         position: fixed;
         bottom: 0.2rem;
-        right: 0.2rem;
+        right: 0.5rem;
         transform: scale(0.7);
 
         &.hide-count::before {
@@ -68,6 +68,17 @@ body {
             border-radius: 2rem;
             max-height: 96vh;
             max-width: 100%;
+            position: absolute;
+            #close-cart{
+                position: relative;
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0;
+                margin: 0;
+                background-color: transparent;
+                height: 0;
+                z-index: 15;
+            }
             .cart-list {
                 z-index: 15;
                 overflow: hidden overlay;
@@ -230,6 +241,7 @@ a {
 .card {
     position: relative;
     background-color: $blue;
+    color: $white;
     padding: 1.25rem;
     border-radius: 0.3125rem;
     display: flex;
@@ -386,6 +398,7 @@ a {
         font-size: 2rem;
         border-radius: 2rem;
         width: 95%;
+        color: black;
         body.dark &{
             color: $white;
         }
