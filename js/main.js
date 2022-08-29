@@ -1,10 +1,12 @@
 let products = []
+let searchRes = []
 let darkmode = localStorage.getItem("darkmode") || "false";
 let cart = JSON.parse(localStorage.getItem("shopping-cart")) || [];
 const loadPage = async () => {
     const res = await fetch("./js/products.json");
     const data = await res.json()
     products = data
+    searchRes = products
     document.getElementById("title").innerText = `Bienvenido a este hermoso "carrito de compras" version 1.0`;
 }
 
@@ -209,7 +211,7 @@ function addProduct(products) {
             i++
         })
     } else {
-        (document.getElementById("products").innerHTML = `No hay resultados`);
+        document.getElementById("products").innerHTML = `No hay resultados`;
     }
 
     setTimeout(() => cardAdapter(), 100)
@@ -217,52 +219,61 @@ function addProduct(products) {
 function searchProduct(event, products) {
     let arg = event.target.value.toLowerCase()
     if (arg !== "") {
-        products = products.filter((product) => { return product.name.toLowerCase().includes(arg) || product.store.toLowerCase().includes(arg) })
-        addProduct(products)
+        searchRes = products.filter((product) => { return product.name.toLowerCase().includes(arg) || product.store.toLowerCase().includes(arg) })
+        addProduct(searchRes)
         document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
     } else {
-        addProduct(products)
-        document.getElementById("search").innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>'
+        loadPage()
+        .then(() => {
+            addProduct(products)
+            document.getElementById("search").innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>'
+        })
     }
 }
 function sortProduct(products, criteria) {
 
-        const sortingMethods = {
-            "sort-price": () => {
-                addProduct(products.sort((pa, pb) => {
-                    return pa.price - pb.price
-                }))
-                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-9-1"></i>`
-                document.getElementById(criteria).setAttribute("id", "sort-price-inv")
-            },
-            "sort-price-inv": () => {
-                addProduct(products.sort((pa, pb) => {
-                    return pb.price - pa.price
-                }))
-                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-1-9"></i>`
-                document.getElementById(criteria).setAttribute("id", "sort-price")
-            },
-            "sort-name": () => {
-                addProduct(products.sort((pa, pb) => {
-                    return pa.name.localeCompare(pb.name)
-                }))
-                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-z-a"></i>`
-                document.getElementById(criteria).setAttribute("id", "sort-name-inv")
-            },
-            "sort-name-inv": () => {
-                addProduct(products.sort((pa, pb) => {
-                    return pb.name.localeCompare(pa.name)
-                }))
-                document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-a-z"></i>`
-                document.getElementById(criteria).setAttribute("id", "sort-name")
-            }
+    const sortingMethods = {
+        "sort-price": () => {
+            addProduct(products.sort((pa, pb) => {
+                return pa.price - pb.price
+            }))
+            document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-9-1"></i>`
+            document.getElementById(criteria).setAttribute("id", "sort-price-inv")
+            document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+        },
+        "sort-price-inv": () => {
+            addProduct(products.sort((pa, pb) => {
+                return pb.price - pa.price
+            }))
+            document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-1-9"></i>`
+            document.getElementById(criteria).setAttribute("id", "sort-price")
+            document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+        },
+        "sort-name": () => {
+            addProduct(products.sort((pa, pb) => {
+                return pa.name.localeCompare(pb.name)
+            }))
+            document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-z-a"></i>`
+            document.getElementById(criteria).setAttribute("id", "sort-name-inv")
+            document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
+        },
+        "sort-name-inv": () => {
+            addProduct(products.sort((pa, pb) => {
+                return pb.name.localeCompare(pa.name)
+            }))
+            document.getElementById(criteria).innerHTML = `<i class="fa-solid fa-arrow-down-a-z"></i>`
+            document.getElementById(criteria).setAttribute("id", "sort-name")
+            document.getElementById("search").innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
         }
-        const sortingMethod = sortingMethods[criteria]
-        sortingMethod()
+    }
+    sortingMethods[criteria]()
+
 }
-function restoreSearch(products) {
-    addProduct(products);
-    productsAux = products;
+function restoreSearch() {
+    loadPage()
+    .then(() => {
+        addProduct(products)
+    });
     document.getElementById("product-name").value = "";
     document.getElementById("search").innerHTML = '<i class="fa-solid fa-magnifying-glass"></i>';
 }
@@ -365,7 +376,7 @@ document.getElementById("sc-btn").onclick = (event) => {
     }
 
 }
-document.getElementById("search").onclick = () => document.getElementById("search").innerHTML === `<i class="fa-solid fa-rotate-left"></i>` && restoreSearch(products);
-document.getElementById("sort-price").onclick = (event) => sortProduct(products, event.currentTarget.id)
-document.getElementById("sort-name").onclick = (event) => sortProduct(products, event.currentTarget.id)
+document.getElementById("search").onclick = () => document.getElementById("search").innerHTML === `<i class="fa-solid fa-rotate-left"></i>` && restoreSearch();
+document.getElementById("sort-price").onclick = (event) => sortProduct(searchRes, event.currentTarget.id)
+document.getElementById("sort-name").onclick = (event) => sortProduct(searchRes, event.currentTarget.id)
 window.onresize = () => cardAdapter();

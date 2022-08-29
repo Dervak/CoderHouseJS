@@ -134,6 +134,11 @@ body .popup-bg .cart-container .cart-list .cart-total-buy #cart-buy:disabled {
 body .popup-bg.active {
   opacity: 1;
 }
+body .buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 header {
   display: flex;
@@ -227,11 +232,11 @@ a {
   margin: 2rem;
   margin-top: 7rem;
   padding: 1rem;
-  font-size: 2rem;
   transition: all 0.5s ease;
 }
 body.dark .card {
   background-color: aquamarine;
+  color: #282828;
 }
 .card img {
   position: absolute;
@@ -246,6 +251,7 @@ body.dark .card {
 }
 .card .store {
   margin-top: var(--card-margin);
+  font-size: 2rem;
 }
 .card .name, .card .price {
   font-size: 1.5rem;
@@ -352,4 +358,7 @@ body.dark .container .description {
   font-size: 2rem;
   border-radius: 2rem;
   width: 95%;
+}
+body.dark .container #products {
+  color: #f0ffff;
 }/*# sourceMappingURL=style.css.map */
